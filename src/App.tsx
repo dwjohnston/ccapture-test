@@ -1,24 +1,52 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
+const randInt = () => {
+  return Math.floor(Math.random() * 500);
+};
+
 function App() {
+
+  const canvasRef = useRef<null | HTMLCanvasElement>(null);
+
+  //@ts-ignore
+  const capturerRef = useRef(new CCapture({
+    format: "webm"
+  }));
+
+  useEffect(() => {
+    const context = canvasRef.current?.getContext('2d');
+
+    if (context) {
+      const draw = () => {
+        context.strokeRect(randInt(), randInt(), randInt(), randInt())
+        window.requestAnimationFrame(draw);
+      };
+
+      window.requestAnimationFrame(draw);
+    }
+
+
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+
+
+      <button onClick={() => {
+        //@ts-ignore
+        capturerRef.current.start();
+      }}>start </button>
+
+      <button onClick={() => {
+        //@ts-ignore
+        capturerRef.current.stop();
+
+      }}> stop </button>
+
+      <canvas ref={canvasRef} width="500" height="500"></canvas>
+
     </div>
   );
 }
