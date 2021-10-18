@@ -38,20 +38,28 @@
 
       const canvas = document.getElementById("canvas");
 
+
+      const capturer = new CCapture({
+        format: "webm"
+      }); 
+
+
       const context = canvas.getContext("2d");
       if (context) {
         const draw = () => {
           context.strokeRect(randInt(), randInt(), randInt(), randInt())
           window.requestAnimationFrame(draw);
+
+          capturer.capture(canvas);
+
+
         };
 
         window.requestAnimationFrame(draw);
       }
 
 
-      const capturer = new CCapture({
-        format: "webm"
-      }); 
+
 
       document.getElementById("start").addEventListener("click", () => {
         capturer.start();
