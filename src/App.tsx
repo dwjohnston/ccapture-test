@@ -20,8 +20,12 @@ function App() {
 
     if (context) {
       const draw = () => {
+
+        context.strokeStyle = "red";
         context.strokeRect(randInt(), randInt(), randInt(), randInt())
         window.requestAnimationFrame(draw);
+
+        capturerRef.current.capture(canvasRef.current);
       };
 
       window.requestAnimationFrame(draw);
@@ -42,6 +46,7 @@ function App() {
       <button onClick={() => {
         //@ts-ignore
         capturerRef.current.stop();
+        capturerRef.current.save();
 
       }}> stop </button>
 
